@@ -1,15 +1,66 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import heroImg from "./assets/hero.png";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [index, setIndex] = useState(1);
+
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    dislayData();
+  },[index]);
+
+  const dislayData = async () => {
+    let response = await axios.get(
+      `https://picsum.photos/v2/list?page=${index}&limit=30`,
+    );
+    console.log(response.data);
+    setData(response.data);
+  };
+
+  let printUserData = (
+    <h4 className=" font-bold text-6xl text-gray-500">No Data Available </h4>
+  );
+
+  if (data.length > 0) {
+    printUserData = data.map((elem, idx) => {
+      return (
+        <div key={elem.id} className="border-2 rounded-2xl p-2">
+          <a href={elem.url} target="_blank">
+            <img
+              className="w-60 h-60 rounded-2xl"
+              src={elem.download_url}
+              alt=""
+            />
+            <p className="text-center">{elem.author}</p>
+          </a>
+        </div>
+      );
+    });
+  }
 
   return (
     <>
-      <h1 class="text-3xl font-bold underline">Hello world!</h1>
+      <div className="bg-black text-white  h-screen p-4">
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-4 p-4 h-[89%] overflow-y-auto">
+          {printUserData}
+        </div>
+
+        <div className="flex justify-center items-center gap-6 p-4">
+          <button onClick={()=>{
+            if (index>1){
+              setIndex(index-1)
+            }
+          }} className="px-6 py-3 active:scale-95 font-bold text-sm bg-amber-400 text-black rounded">
+            Prev
+          </button>
+          <span>Page : {index} </span>
+          <button onClick={()=>{setIndex(index+1)}} className="px-6 py-3 active:scale-95 font-bold text-sm bg-amber-400 text-black rounded">
+            Mext
+          </button>
+        </div>
+      </div>
     </>
   );
 }
