@@ -8,7 +8,7 @@ function App() {
   const [data, setData] = useState([]);
   useEffect(() => {
     dislayData();
-  },[index]);
+  }, [index]);
 
   const dislayData = async () => {
     let response = await axios.get(
@@ -19,7 +19,7 @@ function App() {
   };
 
   let printUserData = (
-    <h4 className=" font-bold text-6xl text-gray-500">No Data Available </h4>
+    <h4 className=" font-bold text-6xl text-gray-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y -1/2 ">Loading...</h4>
   );
 
   if (data.length > 0) {
@@ -42,21 +42,30 @@ function App() {
   return (
     <>
       <div className="bg-black text-white  h-screen p-4">
-        
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-4 p-4 h-[89%] overflow-y-auto">
           {printUserData}
         </div>
 
         <div className="flex justify-center items-center gap-6 p-4">
-          <button onClick={()=>{
-            if (index>1){
-              setIndex(index-1)
-            }
-          }} className="px-6 py-3 active:scale-95 font-bold text-sm bg-amber-400 text-black rounded">
+          <button
+            onClick={() => {
+              if (index > 1) {
+                setIndex([]);
+                setIndex(index - 1);
+              }
+            }}
+            className="px-6 py-3 active:scale-95 font-bold text-sm bg-amber-400 text-black rounded"
+          >
             Prev
           </button>
           <span>Page : {index} </span>
-          <button onClick={()=>{setIndex(index+1)}} className="px-6 py-3 active:scale-95 font-bold text-sm bg-amber-400 text-black rounded">
+          <button
+            onClick={() => {
+              setIndex([]);
+              setIndex(index + 1);
+            }}
+            className="px-6 py-3 active:scale-95 font-bold text-sm bg-amber-400 text-black rounded"
+          >
             Mext
           </button>
         </div>
