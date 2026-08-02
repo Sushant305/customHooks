@@ -48,6 +48,7 @@ function App() {
 
         <div className="flex justify-center items-center gap-6 p-4">
           <button
+          style={{opacity:index == 1?0.5:1}}
             onClick={() => {
               if (index > 1) {
                 setIndex([]);
