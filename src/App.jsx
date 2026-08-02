@@ -7,18 +7,24 @@ function App() {
 
   const [data, setData] = useState([]);
 
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
 
   useEffect(() => {
     dislayData();
   }, [index]);
 
   const dislayData = async () => {
-    let response = await axios.get(
-      `https://picsum.photos/v2/list?page=${index}&limit=30`,
-    );
-    console.log(response.data);
-    setData(response.data);
+    try {
+      let response = await axios.get(
+        `https://picsum.photos/v2/list?page=${index}&limit=30`,
+      );
+      console.log(response.data);
+      setData(response.data);
+    } catch (error) {
+      setError(
+        "❌ unable to fetch the data . please chceck your Internet connection.",
+      );
+    }
   };
 
   let printUserData = (
@@ -48,7 +54,13 @@ function App() {
     <>
       <div className="bg-black text-white  h-screen p-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-4 p-4 h-[89%] overflow-y-auto">
-          {printUserData}
+          {error ? (
+            <h2 className="text-red-500 text-3xl font-bold col-span-full text-center mt-20">
+              {error}
+            </h2>
+          ) : (
+            printUserData
+          )}
         </div>
 
         <div className="flex justify-center items-center gap-6 p-4">
