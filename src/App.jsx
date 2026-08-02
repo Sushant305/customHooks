@@ -6,6 +6,9 @@ function App() {
   const [index, setIndex] = useState(1);
 
   const [data, setData] = useState([]);
+
+  const [error, setError] = useState("")
+
   useEffect(() => {
     dislayData();
   }, [index]);
@@ -19,7 +22,9 @@ function App() {
   };
 
   let printUserData = (
-    <h4 className=" font-bold text-6xl text-gray-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y -1/2 ">Loading...</h4>
+    <h4 className=" font-bold text-6xl text-gray-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y -1/2 ">
+      Loading...
+    </h4>
   );
 
   if (data.length > 0) {
@@ -48,7 +53,7 @@ function App() {
 
         <div className="flex justify-center items-center gap-6 p-4">
           <button
-          style={{opacity:index == 1?0.5:1}}
+            style={{ opacity: index == 1 ? 0.5 : 1 }}
             onClick={() => {
               if (index > 1) {
                 setIndex([]);
