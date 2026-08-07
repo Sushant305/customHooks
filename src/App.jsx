@@ -1,37 +1,16 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
+import UseFetch from "./hooks/UseFetch";
 import "./App.css";
 
 function App() {
   const [index, setIndex] = useState(1);
+  const url =   `https://picsum.photos/v2/list?page=${index}&limit=30`
+  const {data , loading , error} = UseFetch(url )
 
-  const [data, setData] = useState([]);
-
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    dislayData();
-  }, [index]);
-
-  const dislayData = async () => {
-    try {
-      let response = await axios.get(
-        `https://picsum.photos/v2/list?page=${index}&limit=30`,
-      );
-      console.log(response.data);
-      setData(response.data);
-    } catch (error) {
-      setError(
-        "❌ unable to fetch the data . please chceck your Internet connection.",
-      );
-    }
-  };
-
-  let printUserData = (
-    <h4 className=" font-bold text-6xl text-gray-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y -1/2 ">
-      Loading...
-    </h4>
-  );
+  if(loading){
+    return <h1>Loading...</h1>
+  }
+  let printUserData = [];
 
   if (data.length > 0) {
     printUserData = data.map((elem, idx) => {
@@ -68,7 +47,7 @@ function App() {
             style={{ opacity: index == 1 ? 0.5 : 1 }}
             onClick={() => {
               if (index > 1) {
-                setIndex([]);
+                
                 setIndex(index - 1);
               }
             }}
@@ -79,12 +58,12 @@ function App() {
           <span>Page : {index} </span>
           <button
             onClick={() => {
-              setIndex([]);
+              
               setIndex(index + 1);
             }}
             className="px-6 py-3 active:scale-95 font-bold text-sm bg-amber-400 text-black rounded"
           >
-            Mext
+            Next
           </button>
         </div>
       </div>
